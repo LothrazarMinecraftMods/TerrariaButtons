@@ -56,21 +56,8 @@ public class DepositAllPacket  implements IMessage , IMessageHandler<DepositAllP
 			 
 			UtilInventory.dumpFromPlayerToIInventory(p.worldObj, openInventory, p);
 			
-
-			//first: mark player inventory as 'i need to update on client side'
-			p.inventory.inventoryChanged = true;
-			p.inventory.markDirty();
+			UtilInventory.updatePlayerContainerClient(p);
 			
-			//next mark the container as 'i need to update on client side'
-			UtilInventory.updateNearbyTileEntities(p);
-			
-			if(FMLClientHandler.instance().getClient().currentScreen != null)
-			{
-				// http://www.minecraftforge.net/wiki/Tile_Entities#Sending_Tile_Entity_Data_From_Server_to_Client
-				FMLClientHandler.instance().getClient().currentScreen.updateScreen();
-			}
-			
-			//if above didnt work i was doing this before:  p.closeScreen();
 		}
 		
 		return null;

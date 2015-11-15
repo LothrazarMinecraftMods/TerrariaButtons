@@ -20,6 +20,7 @@ import net.minecraft.tileentity.TileEntityChest;
  
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.FMLClientHandler;
 /** 
  * @author Lothrazar at https://github.com/PrinceOfAmber
  */
@@ -635,6 +636,29 @@ public class UtilInventory
 				}
 			}
 		}
+	}
+
+	/**
+	 * call this from SERVER SIDE if you are doing stuff to containers/invos/tile entities
+	 * but your client GUI's are not updating
+	 * @param p
+	 */
+	public static void updatePlayerContainerClient(EntityPlayer p)
+	{
+		//first: mark player inventory as 'i need to update on client side'
+		p.inventory.inventoryChanged = true;
+		p.inventory.markDirty();
+		
+		//next mark the container as 'i need to update on client side'
+		UtilInventory.updateNearbyTileEntities(p);
+		
+		if(FMLClientHandler.instance().getClient().currentScreen != null)
+		{
+			// http://www.minecraftforge.net/wiki/Tile_Entities#Sending_Tile_Entity_Data_From_Server_to_Client
+			FMLClientHandler.instance().getClient().currentScreen.updateScreen();
+		}
+		
+		//if above didnt work i was doing this before:  p.closeScreen();
 	}
 
 	/*
