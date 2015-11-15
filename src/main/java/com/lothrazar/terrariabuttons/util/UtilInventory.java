@@ -609,6 +609,34 @@ public class UtilInventory
 		return p.inventory.getSizeInventory() - Const.ARMOR_SIZE;
 	}
 
+	public static void updateNearbyTileEntities(EntityPlayer player)
+	{
+		//this is used ONLY since when a player has an open Gui, an open Container, or open IInventory
+		//thiere is no reference to the TileEntity in the world
+		//so we hack it by hitting everything nearby
+		World w = player.worldObj;
+		int RADIUS = 5;
+		int xMin = (int) player.posX - RADIUS;
+		int xMax = (int) player.posX + RADIUS;
+
+		int yMin = (int) player.posY - RADIUS;
+		int yMax = (int) player.posY + RADIUS;
+
+		int zMin = (int) player.posZ - RADIUS;
+		int zMax = (int) player.posZ + RADIUS;
+		 
+		for (int xLoop = xMin; xLoop <= xMax; xLoop++)
+		{
+			for (int yLoop = yMin; yLoop <= yMax; yLoop++)
+			{
+				for (int zLoop = zMin; zLoop <= zMax; zLoop++)
+				{  
+					w.markBlockForUpdate(new BlockPos(xLoop, yLoop, zLoop));
+				}
+			}
+		}
+	}
+
 	/*
 	public static void doSort(EntityPlayer p,int sortType)
 	{

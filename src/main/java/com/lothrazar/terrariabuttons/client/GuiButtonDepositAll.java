@@ -26,6 +26,9 @@ public class GuiButtonDepositAll extends GuiButton
     	
     	if(pressed)
     	{ 
+    		//TODO: can we get TE xyz here
+    		//Minecraft.getMinecraft().thePlayer.openContainer.
+    		
     		ModTerrariaButtons.instance.network.sendToServer(new DepositAllPacket(new NBTTagCompound()));
     	}
     	

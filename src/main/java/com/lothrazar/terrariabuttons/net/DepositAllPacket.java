@@ -8,6 +8,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -37,6 +39,7 @@ public class DepositAllPacket  implements IMessage , IMessageHandler<DepositAllP
 	public IMessage onMessage(DepositAllPacket message, MessageContext ctx)
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
+		
 		System.out.println("DepositAllPacket");
 		
 		if(p.openContainer == null || p.openContainer.getSlot(0) == null || p.openContainer.getSlot(0).inventory == null)
@@ -50,12 +53,24 @@ public class DepositAllPacket  implements IMessage , IMessageHandler<DepositAllP
 			//a workaround since player does not reference the inventory, only the container
 			//and Container has no get method
 			IInventory openInventory = p.openContainer.getSlot(0).inventory;
-			
-			
+			 
 			UtilInventory.dumpFromPlayerToIInventory(p.worldObj, openInventory, p);
 			
-			//TODO: find out a way to sync visibility without closescreen
-			p.closeScreen();
+
+			//first: mark player inventory as 'i need to update on client side'
+			p.inventory.inventoryChanged = true;
+			p.inventory.markDirty();
+			
+			//next mark the container as 'i need to update on client side'
+			UtilInventory.updateNearbyTileEntities(p);
+			
+			if(FMLClientHandler.instance().getClient().currentScreen != null)
+			{
+				// http://www.minecraftforge.net/wiki/Tile_Entities#Sending_Tile_Entity_Data_From_Server_to_Client
+				FMLClientHandler.instance().getClient().currentScreen.updateScreen();
+			}
+			
+			//if above didnt work i was doing this before:  p.closeScreen();
 		}
 		
 		return null;
