@@ -39,14 +39,11 @@ public class DepositAllPacket  implements IMessage , IMessageHandler<DepositAllP
 	public IMessage onMessage(DepositAllPacket message, MessageContext ctx)
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
-		
-		System.out.println("DepositAllPacket");
-		
+		 
 		if(p.openContainer == null || p.openContainer.getSlot(0) == null || p.openContainer.getSlot(0).inventory == null)
 		{
 			//TODO: use logger
 			System.out.println("ERROR LOG: null container inventory");
-			 
 		}
 		else
 		{
@@ -57,7 +54,6 @@ public class DepositAllPacket  implements IMessage , IMessageHandler<DepositAllP
 			UtilInventory.dumpFromPlayerToIInventory(p.worldObj, openInventory, p);
 			
 			UtilInventory.updatePlayerContainerClient(p);
-			
 		}
 		
 		return null;

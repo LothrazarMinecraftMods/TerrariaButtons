@@ -1,7 +1,10 @@
 package com.lothrazar.terrariabuttons.net;
 
+import com.lothrazar.terrariabuttons.util.UtilInventory;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -32,8 +35,23 @@ public class QuickStackPacket  implements IMessage , IMessageHandler<QuickStackP
 	public IMessage onMessage(QuickStackPacket message, MessageContext ctx)
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
-		// TODO Auto-generated method stub
-		System.out.println("QuickStackPacket");
+
+		if(p.openContainer == null || p.openContainer.getSlot(0) == null || p.openContainer.getSlot(0).inventory == null)
+		{
+			//TODO: use logger
+			System.out.println("ERROR LOG: null container inventory");
+		}
+		else
+		{
+			//a workaround since player does not reference the inventory, only the container
+			//and Container has no get method
+			IInventory openInventory = p.openContainer.getSlot(0).inventory;
+			 
+			UtilInventory.sortFromPlayerToInventory(p.worldObj, openInventory, p);
+			
+			UtilInventory.updatePlayerContainerClient(p);
+		}
+		
 		return null;
 	}
 }

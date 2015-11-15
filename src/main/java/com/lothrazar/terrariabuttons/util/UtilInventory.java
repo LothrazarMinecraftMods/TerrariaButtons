@@ -626,13 +626,20 @@ public class UtilInventory
 		int zMin = (int) player.posZ - RADIUS;
 		int zMax = (int) player.posZ + RADIUS;
 		 
+		BlockPos pos;
 		for (int xLoop = xMin; xLoop <= xMax; xLoop++)
 		{
 			for (int yLoop = yMin; yLoop <= yMax; yLoop++)
 			{
 				for (int zLoop = zMin; zLoop <= zMax; zLoop++)
 				{  
-					w.markBlockForUpdate(new BlockPos(xLoop, yLoop, zLoop));
+					pos = new BlockPos(xLoop, yLoop, zLoop);
+					
+					if(w.getTileEntity(pos) != null)
+					{
+						System.out.println("markBlockForUpdate");
+						w.markBlockForUpdate(pos);
+					}
 				}
 			}
 		}
@@ -645,8 +652,9 @@ public class UtilInventory
 	 */
 	public static void updatePlayerContainerClient(EntityPlayer p)
 	{
+		System.out.println("updatePlayerContainerClient");
 		//first: mark player inventory as 'i need to update on client side'
-		p.inventory.inventoryChanged = true;
+		//p.inventory.inventoryChanged = true;
 		p.inventory.markDirty();
 		
 		//next mark the container as 'i need to update on client side'

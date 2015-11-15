@@ -14,7 +14,7 @@ public class GuiButtonQuickStack extends GuiButton
 {
 	public GuiButtonQuickStack(int buttonId, int x, int y)
 	{
-		super(buttonId, x, y, 40,20, "L");
+		super(buttonId, x, y, 40,20, "QS");
 	}
  
 	@SideOnly(Side.CLIENT)
