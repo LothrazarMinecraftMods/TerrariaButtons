@@ -1,8 +1,13 @@
 package com.lothrazar.terrariabuttons.net;
+ 
+
+import com.lothrazar.terrariabuttons.util.UtilInventory;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -35,6 +40,18 @@ public class DepositAllPacket  implements IMessage , IMessageHandler<DepositAllP
 		
 		System.out.println("DepositAllPacket");
 		// TODO Auto-generated method stub
+		//TODO: get coordinates of the currently open container that the player is using
+		/*
+		 * posCurrent = new BlockPos(xLoop, yLoop, zLoop);
+					if(player.worldObj.getTileEntity(posCurrent) instanceof IInventory)
+					{ 
+						found.add((IInventory)player.worldObj.getTileEntity(posCurrent));
+					} 
+		UtilInventory.dumpFromPlayerToIInventory(p.worldObj, inventory, p);
+		
+					*/
+		
+		
 		return null;
 	}
  
