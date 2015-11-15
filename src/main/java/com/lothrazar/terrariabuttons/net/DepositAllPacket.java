@@ -37,20 +37,26 @@ public class DepositAllPacket  implements IMessage , IMessageHandler<DepositAllP
 	public IMessage onMessage(DepositAllPacket message, MessageContext ctx)
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
-		
 		System.out.println("DepositAllPacket");
-		// TODO Auto-generated method stub
-		//TODO: get coordinates of the currently open container that the player is using
-		/*
-		 * posCurrent = new BlockPos(xLoop, yLoop, zLoop);
-					if(player.worldObj.getTileEntity(posCurrent) instanceof IInventory)
-					{ 
-						found.add((IInventory)player.worldObj.getTileEntity(posCurrent));
-					} 
-		UtilInventory.dumpFromPlayerToIInventory(p.worldObj, inventory, p);
 		
-					*/
-		
+		if(p.openContainer == null || p.openContainer.getSlot(0) == null || p.openContainer.getSlot(0).inventory == null)
+		{
+			//TODO: use logger
+			System.out.println("ERROR LOG: null container inventory");
+			 
+		}
+		else
+		{
+			//a workaround since player does not reference the inventory, only the container
+			//and Container has no get method
+			IInventory openInventory = p.openContainer.getSlot(0).inventory;
+			
+			
+			UtilInventory.dumpFromPlayerToIInventory(p.worldObj, openInventory, p);
+			
+			//TODO: find out a way to sync visibility without closescreen
+			p.closeScreen();
+		}
 		
 		return null;
 	}
