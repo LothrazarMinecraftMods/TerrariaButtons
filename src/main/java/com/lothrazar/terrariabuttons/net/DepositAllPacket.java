@@ -32,6 +32,8 @@ public class DepositAllPacket  implements IMessage , IMessageHandler<DepositAllP
 	public IMessage onMessage(DepositAllPacket message, MessageContext ctx)
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
+		
+		System.out.println("DepositAllPacket");
 		// TODO Auto-generated method stub
 		return null;
 	}

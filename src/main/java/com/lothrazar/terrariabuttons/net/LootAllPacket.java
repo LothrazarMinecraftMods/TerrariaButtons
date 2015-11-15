@@ -33,6 +33,7 @@ public class LootAllPacket  implements IMessage , IMessageHandler<LootAllPacket,
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
 		// TODO Auto-generated method stub
+		System.out.println("LootAllPacket");
 		return null;
 	}
  

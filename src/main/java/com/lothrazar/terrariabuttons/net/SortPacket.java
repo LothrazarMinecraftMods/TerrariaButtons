@@ -33,6 +33,7 @@ public class SortPacket  implements IMessage , IMessageHandler<SortPacket, IMess
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
 		// TODO Auto-generated method stub
+		System.out.println("SortPacket");
 		return null;
 	}
  

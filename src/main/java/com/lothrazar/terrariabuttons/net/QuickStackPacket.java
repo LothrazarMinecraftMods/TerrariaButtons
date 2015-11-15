@@ -33,6 +33,7 @@ public class QuickStackPacket  implements IMessage , IMessageHandler<QuickStackP
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
 		// TODO Auto-generated method stub
+		System.out.println("QuickStackPacket");
 		return null;
 	}
 }

@@ -33,6 +33,7 @@ public class RenamePacket  implements IMessage , IMessageHandler<RenamePacket, I
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
 		// TODO Auto-generated method stub
+		System.out.println("RenamePacket");
 		return null;
 	}
  

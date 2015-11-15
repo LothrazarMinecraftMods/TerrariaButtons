@@ -33,6 +33,7 @@ public class RestockPacket  implements IMessage , IMessageHandler<RestockPacket,
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
 		// TODO Auto-generated method stub
+		System.out.println("RestockPacket");
 		return null;
 	}
  
