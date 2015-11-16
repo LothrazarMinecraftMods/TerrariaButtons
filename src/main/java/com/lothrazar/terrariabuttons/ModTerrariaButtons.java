@@ -1,7 +1,7 @@
 package com.lothrazar.terrariabuttons;
  
 import com.lothrazar.terrariabuttons.net.*;
-
+import com.lothrazar.terrariabuttons.util.Const;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
@@ -15,13 +15,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = ModTerrariaButtons.MODID, useMetadata=true, canBeDeactivated=false
-		, version = ModTerrariaButtons.VERSION)
+@Mod(modid = Const.MODID, useMetadata=true, canBeDeactivated=false 
+		,  guiFactory ="com.lothrazar."+Const.MODID+".IngameConfigHandler")
 public class ModTerrariaButtons
-{
-    public static final String MODID = "terrariabuttons";
-    public static final String VERSION = "1.8-1.0.0";
-	@Instance(ModTerrariaButtons.MODID)
+{ 
+	@Instance(Const.MODID)
 	public static ModTerrariaButtons instance;
 	@SidedProxy(clientSide = "com.lothrazar.terrariabuttons.ClientProxy", serverSide = "com.lothrazar.terrariabuttons.CommonProxy")
 	public static CommonProxy proxy;
@@ -29,7 +27,7 @@ public class ModTerrariaButtons
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-    	network = NetworkRegistry.INSTANCE.newSimpleChannel(ModTerrariaButtons.MODID);
+    	network = NetworkRegistry.INSTANCE.newSimpleChannel(Const.MODID);
     	
     	ModConfig.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
 

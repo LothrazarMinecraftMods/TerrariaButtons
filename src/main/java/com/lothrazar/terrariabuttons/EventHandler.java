@@ -1,10 +1,11 @@
 package com.lothrazar.terrariabuttons;
- 
+  
 import com.lothrazar.terrariabuttons.client.*;
 import com.lothrazar.terrariabuttons.util.Const;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -93,5 +94,11 @@ public class EventHandler
 
 			//event.buttonList.add(new GuiButtonRename(button_id++, x,y));
 		}
+	}
+    
+	@SubscribeEvent
+	public void onConfigChanged(OnConfigChangedEvent event) 
+	{
+		if (event.modID.equals(Const.MODID)) {ModConfig.syncConfig();}
 	}
 }

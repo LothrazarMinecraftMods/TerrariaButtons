@@ -2,6 +2,7 @@ package com.lothrazar.terrariabuttons.util;
  
 public class Const
 { 
+    public static final String MODID = "terrariabuttons";
 
 	public static final int SQ = 18;
 	public static final int HOTBAR_SIZE = 9;
