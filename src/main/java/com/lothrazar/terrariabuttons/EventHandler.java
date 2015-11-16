@@ -47,14 +47,14 @@ public class EventHandler
 			// TODO: config for different locations - left right bottom top
 			int x=0,y=0,padding = 6, ypadding = 24;
 System.out.println(ModConfig.position);
-			if(ModConfig.position.equalsIgnoreCase("left"))
-			{
-				x = Minecraft.getMinecraft().displayWidth/2 - Const.btnWidth - padding;//align to right side
-				y = padding;
-			}
-			else if(ModConfig.position.equalsIgnoreCase("right"))
+			if(ModConfig.position.equalsIgnoreCase(ModConfig.posLeft))
 			{
 				x = padding;
+				y = padding;
+			}
+			else if(ModConfig.position.equalsIgnoreCase(ModConfig.posRight))
+			{
+				x = Minecraft.getMinecraft().displayWidth/2 - Const.btnWidth - padding;//align to right side
 				y = padding;
 			}
 			
