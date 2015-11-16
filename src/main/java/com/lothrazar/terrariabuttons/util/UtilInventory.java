@@ -71,7 +71,7 @@ public class UtilInventory
 		//source: https://github.com/PrinceOfAmber/SamsPowerups/blob/master/Spells/src/main/java/com/lothrazar/samsmagic/spell/SpellChestDeposit.java#L84
 		
 		ItemStack chestItem;
-		ItemStack invItem;
+		ItemStack playerItem;
 		int room;
 		int toDeposit;
 		int chestMax;
@@ -91,11 +91,11 @@ public class UtilInventory
 			for(int islotInv = Const.HOTBAR_SIZE; islotInv < getInvoEnd(player); islotInv++)
 			{
 			 
-				invItem = player.inventory.getStackInSlot(islotInv);
+				playerItem = player.inventory.getStackInSlot(islotInv);
 				
-				if(invItem == null)  {continue;}//empty inventory slot
+				if(playerItem == null)  {continue;}//empty inventory slot
 		 
-  				if( invItem.getItem().equals(chestItem.getItem()) && invItem.getItemDamage() ==  chestItem.getItemDamage() )
+  				if( playerItem.getItem().equals(chestItem.getItem()) && playerItem.getItemDamage() ==  chestItem.getItemDamage() )
   				{  
   					//same item, including damage (block state)
   					
@@ -106,14 +106,14 @@ public class UtilInventory
   			 
   					//so if i have 30 room, and 28 items, i deposit 28.
   					//or if i have 30 room and 38 items, i deposit 30
-  					toDeposit = Math.min(invItem.stackSize,room);
+  					toDeposit = Math.min(playerItem.stackSize,room);
  
   					chestItem.stackSize += toDeposit;
   					chest.setInventorySlotContents(islotChest, chestItem);
 
-  					invItem.stackSize -= toDeposit;
+  					playerItem.stackSize -= toDeposit;
 
-  					if(invItem.stackSize <= 0)//because of calculations above, should not be below zero
+  					if(playerItem.stackSize <= 0)//because of calculations above, should not be below zero
   					{
   						//item stacks with zero count do not destroy themselves, they show up and have unexpected behavior in game so set to empty
   						player.inventory.setInventorySlotContents(islotInv,null); 
@@ -121,7 +121,7 @@ public class UtilInventory
   					else
   					{
   						//set to new quantity
-  	  					player.inventory.setInventorySlotContents(islotInv, invItem); 
+  	  					player.inventory.setInventorySlotContents(islotInv, playerItem); 
   					} 
   				}//end if items match   
   			}//close loop on player inventory items 
@@ -130,12 +130,13 @@ public class UtilInventory
 
 	public static void sortFromInventoryToPlayer(World world, IInventory chest, EntityPlayer player)
   	{ 
+		//System.out.println("sortFromInventoryToPlayer");
 		// same as sortFromPlayerToInventory but reverse
 		//TODO: find some code sharing
 
 
 		ItemStack chestItem;
-		ItemStack invItem;
+		ItemStack playerItem;
 		int room;
 		int toDeposit;
 		int invMax;
@@ -151,27 +152,30 @@ public class UtilInventory
 			chestItem = chest.getStackInSlot(islotChest);
 		
 			if(chestItem == null) {   continue; }//  empty chest slot
+			//System.out.println("chestItem == null");
 			 
 			for(int islotInv = Const.HOTBAR_SIZE; islotInv < getInvoEnd(player); islotInv++)
 			{
-			 
-				invItem = player.inventory.getStackInSlot(islotInv);
+				playerItem = player.inventory.getStackInSlot(islotInv);
 				
-				if(invItem == null)  {continue;}//empty inventory slot
+				if(playerItem == null)  {continue;}//empty inventory slot
+				//System.out.println("playerItem == null");
 		 
-  				if( invItem.getItem().equals(chestItem.getItem()) && invItem.getItemDamage() ==  chestItem.getItemDamage() )
+  				if( playerItem.getItem().equals(chestItem.getItem()) && playerItem.getItemDamage() ==  chestItem.getItemDamage() )
   				{  
+  					//System.out.println("MATCH");
   					
-  					invMax = invItem.getItem().getItemStackLimit(invItem);
-  					room = invMax - invItem.stackSize;
+  					invMax = playerItem.getItem().getItemStackLimit(playerItem);
+  					room = invMax - playerItem.stackSize;
  					 
  					if(room <= 0) {continue;} // no room, check the next spot
+  					//System.out.println("ROOM");
  					
   					toDeposit = Math.min(chestItem.stackSize,room);
  					
   					//add to player
- 					invItem.stackSize += toDeposit;
- 					player.inventory.setInventorySlotContents(islotInv, invItem);
+ 					playerItem.stackSize += toDeposit;
+ 					player.inventory.setInventorySlotContents(islotInv, playerItem);
  					
  					//remove from chest/invo
  					chestItem.stackSize -= toDeposit;
@@ -368,7 +372,7 @@ public class UtilInventory
 					
 					if(w.getTileEntity(pos) != null)
 					{
-						System.out.println("markBlockForUpdate");
+						//System.out.println("markBlockForUpdate");
 						w.markBlockForUpdate(pos);
 					}
 				}
@@ -385,7 +389,7 @@ public class UtilInventory
 	{
 		//first: mark player inventory as 'i need to update on client side'
 		//p.inventory.inventoryChanged = true;
-		p.inventory.markDirty();
+	//	p.inventory.markDirty();
 		
 		//next mark the container as 'i need to update on client side'
 		//UtilInventory.updateNearbyTileEntities(p);

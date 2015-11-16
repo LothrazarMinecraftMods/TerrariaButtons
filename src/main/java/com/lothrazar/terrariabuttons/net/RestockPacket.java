@@ -36,8 +36,6 @@ public class RestockPacket  implements IMessage , IMessageHandler<RestockPacket,
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
 
-		System.out.println("RestockPacket");
-		
 		if(p.openContainer == null || p.openContainer.getSlot(0) == null || p.openContainer.getSlot(0).inventory == null)
 		{
 			//TODO: use logger

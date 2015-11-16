@@ -36,7 +36,6 @@ public class LootAllPacket  implements IMessage , IMessageHandler<LootAllPacket,
 	{
 		EntityPlayer p = ctx.getServerHandler().playerEntity;
 
-
 		if(p.openContainer == null || p.openContainer.getSlot(0) == null || p.openContainer.getSlot(0).inventory == null)
 		{
 			//TODO: use logger
@@ -53,9 +52,6 @@ public class LootAllPacket  implements IMessage , IMessageHandler<LootAllPacket,
 			UtilInventory.updatePlayerContainerClient(p);
 		}
 		
-		
-		
-		System.out.println("LootAllPacket");
 		return null;
 	}
  
