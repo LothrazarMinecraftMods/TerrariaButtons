@@ -60,19 +60,22 @@ public class UtilInventory
 		ItemStack playerEmptySlot;
 		ItemStack chestItem;
 	 
-		int start = 0; 
+		int start = 0; //dont start at zero every time
 		for(int islotPlayer = Const.HOTBAR_SIZE; islotPlayer < getInvoEnd(player); islotPlayer++)
 		{
 			playerEmptySlot = player.inventory.getStackInSlot(islotPlayer);
 			if(playerEmptySlot != null) {   continue; }//   slot not empty, skip over it
 
-			for(int islotInv = start; islotInv < inventory.getSizeInventory(); islotInv++)
+			//ok we found an empty player slot
+			for(int islotInvo = start; islotInvo < inventory.getSizeInventory(); islotInvo++)
 			{ 
-				chestItem = inventory.getStackInSlot(islotInv);
+				chestItem = inventory.getStackInSlot(islotInvo);
 			
 				if(chestItem == null) {   continue; }//empty inventory slot
 		 
 				player.inventory.setInventorySlotContents(islotPlayer, chestItem);
+				inventory.setInventorySlotContents(islotInvo, null);
+				start = islotInvo+1;
 				break;
   			}//close loop on player inventory items 
 		}//close loop on chest items
