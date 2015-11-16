@@ -31,68 +31,78 @@ public class EventHandler
 			!(event.gui instanceof net.minecraft.client.gui.inventory.GuiBeacon) &&
 			!(event.gui instanceof net.minecraft.client.gui.inventory.GuiInventory) //players inventory
 			)*/
+		//Class<?> act=Class.forName("net.minecraft.client.gui.inventory.GuiScreenHorseInventory");
+		//  Class.forName("net.minecraft.client.gui.inventory.GuiScreenHorseInventory").isInstance(event.gui)
 		
 		//System.out.println(event.gui.getClass().getName());
 		//whitelist method
-		if(event.gui instanceof net.minecraft.client.gui.inventory.GuiChest || 
-		   event.gui instanceof net.minecraft.client.gui.inventory.GuiDispenser || 
-		   event.gui instanceof net.minecraft.client.gui.inventory.GuiBrewingStand || 
-		   event.gui instanceof net.minecraft.client.gui.inventory.GuiBeacon || 
-		   event.gui instanceof net.minecraft.client.gui.inventory.GuiCrafting || 
-		   event.gui instanceof net.minecraft.client.gui.inventory.GuiFurnace || 
-		   event.gui instanceof net.minecraft.client.gui.inventory.GuiScreenHorseInventory
-		)
+		
+
+		if( ModConfig.classes.size() == 0 )
 		{
-			int button_id = 256;
-			
-			// TODO: config for different locations - left right bottom top
-			int x=0,y=0,padding = 6, yDelta = 24, xDelta = 0;
-
-			if(ModConfig.position.equalsIgnoreCase(ModConfig.posLeft))
+			//this should only happen once
+			//it cant be loaded at the same time the config is brought in
+			//in case other mods are loaded AFTER this one
+			ModConfig.classesFromCsv();
+		}
+		
+		for(Class c : ModConfig.classes)
+		{
+			if(c.isInstance(event.gui))
 			{
-				x = padding;
-				y = padding;
-				//we are moving top to bottom, so 
-				xDelta = 0;
-				yDelta = Const.btnHeight + padding;
+				int button_id = 256;
+				
+				// TODO: config for different locations - left right bottom top
+				int x=0,y=0,padding = 6, yDelta = 24, xDelta = 0;
+	
+				if(ModConfig.position.equalsIgnoreCase(ModConfig.posLeft))
+				{
+					x = padding;
+					y = padding;
+					//we are moving top to bottom, so 
+					xDelta = 0;
+					yDelta = Const.btnHeight + padding;
+				}
+				else if(ModConfig.position.equalsIgnoreCase(ModConfig.posRight))
+				{
+					x = Minecraft.getMinecraft().displayWidth/2 - Const.btnWidth - padding;//align to right side
+					y = padding;
+					//we are moving top to bottom, so 
+					xDelta = 0;
+					yDelta = Const.btnHeight + padding;
+				}
+				else if(ModConfig.position.equalsIgnoreCase(ModConfig.posBottom))
+				{
+					//test bottom
+					x = padding;
+					y = Minecraft.getMinecraft().displayHeight/2 - padding - Const.btnHeight;
+					xDelta = Const.btnWidth + padding;
+					yDelta = 0;
+				}
+	 
+				event.buttonList.add(new GuiButtonLootAll(button_id++, x,y));
+	
+				x += xDelta;
+				y += yDelta;
+	
+				event.buttonList.add(new GuiButtonDepositAll(button_id++, x,y));
+	
+				x += xDelta;
+				y += yDelta;
+	
+				event.buttonList.add(new GuiButtonQuickStack(button_id++, x,y));
+	
+				x += xDelta;
+				y += yDelta;
+	
+				event.buttonList.add(new GuiButtonRestock(button_id++, x,y));
+	
+				//y += ypadding;
+	
+				//event.buttonList.add(new GuiButtonRename(button_id++, x,y));
+				
+				break;//exit loop
 			}
-			else if(ModConfig.position.equalsIgnoreCase(ModConfig.posRight))
-			{
-				x = Minecraft.getMinecraft().displayWidth/2 - Const.btnWidth - padding;//align to right side
-				y = padding;
-				//we are moving top to bottom, so 
-				xDelta = 0;
-				yDelta = Const.btnHeight + padding;
-			}
-			else if(ModConfig.position.equalsIgnoreCase(ModConfig.posBottom))
-			{
-				//test bottom
-				x = padding;
-				y = Minecraft.getMinecraft().displayHeight/2 - padding - Const.btnHeight;
-				xDelta = Const.btnWidth + padding;
-				yDelta = 0;
-			}
- 
-			event.buttonList.add(new GuiButtonLootAll(button_id++, x,y));
-
-			x += xDelta;
-			y += yDelta;
-
-			event.buttonList.add(new GuiButtonDepositAll(button_id++, x,y));
-
-			x += xDelta;
-			y += yDelta;
-
-			event.buttonList.add(new GuiButtonQuickStack(button_id++, x,y));
-
-			x += xDelta;
-			y += yDelta;
-
-			event.buttonList.add(new GuiButtonRestock(button_id++, x,y));
-
-			//y += ypadding;
-
-			//event.buttonList.add(new GuiButtonRename(button_id++, x,y));
 		}
 	}
     

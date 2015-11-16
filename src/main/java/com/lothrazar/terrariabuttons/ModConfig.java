@@ -21,6 +21,9 @@ public class ModConfig
     	syncConfig();
 	}
 	
+	private static String allClasses;
+	public static ArrayList<Class> classes = new ArrayList<Class>();
+	
 	public static void syncConfig()
 	{
 		List<String> valid = new ArrayList<String>();
@@ -30,12 +33,44 @@ public class ModConfig
 		
 		position = config.getString("button_location", Configuration.CATEGORY_GENERAL, posRight, "Location of the buttons, "
 				+ "valid entries are: "+String.join(",", valid));
-		
+
 		if(valid.contains(position) == false)
 		{
 			position = posRight;//default
 		}
 		
+		String category = "the_classes";
+		
+		
+		
+		String all = "net.minecraft.client.gui.inventory.GuiChest,"+
+		   "net.minecraft.client.gui.inventory.GuiDispenser,"+ 
+		   "net.minecraft.client.gui.inventory.GuiBrewingStand,"+ 
+		   "net.minecraft.client.gui.inventory.GuiBeacon,"+ 
+		   "net.minecraft.client.gui.inventory.GuiCrafting,"+ 
+		   "net.minecraft.client.gui.inventory.GuiFurnace,"+ 
+		   "net.minecraft.client.gui.inventory.GuiScreenHorseInventory,"+
+		   "com.jaquadro.minecraft.storagedrawers.client.gui";
+	
+		allClasses = config.getString("classes_csv", category, all, "DO NOT touch unless you have other mods installed with containers that you want to add compatibility for.  The class and package of every GUI screen that has these buttons show up.  ");
+
 		if(config.hasChanged()){config.save();}
+	}
+
+	static void classesFromCsv()
+	{ 
+		classes = new ArrayList<Class>();
+	
+		String[] csv = allClasses.split(",");
+		for(String s : csv)
+		{
+			try{
+				classes.add(Class.forName(s));
+			}
+			catch(Exception e){
+				//TODO: use a real logger?
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 }
