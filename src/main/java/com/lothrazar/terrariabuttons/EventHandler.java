@@ -45,31 +45,47 @@ public class EventHandler
 			int button_id = 256;
 			
 			// TODO: config for different locations - left right bottom top
-			int x=0,y=0,padding = 6, ypadding = 24;
-System.out.println(ModConfig.position);
+			int x=0,y=0,padding = 6, yDelta = 24, xDelta = 0;
+
 			if(ModConfig.position.equalsIgnoreCase(ModConfig.posLeft))
 			{
 				x = padding;
 				y = padding;
+				//we are moving top to bottom, so 
+				xDelta = 0;
+				yDelta = Const.btnHeight + padding;
 			}
 			else if(ModConfig.position.equalsIgnoreCase(ModConfig.posRight))
 			{
 				x = Minecraft.getMinecraft().displayWidth/2 - Const.btnWidth - padding;//align to right side
 				y = padding;
+				//we are moving top to bottom, so 
+				xDelta = 0;
+				yDelta = Const.btnHeight + padding;
 			}
-			
-			//TODO: ... button does nothing for now
+			else if(ModConfig.position.equalsIgnoreCase(ModConfig.posBottom))
+			{
+				//test bottom
+				x = padding;
+				y = Minecraft.getMinecraft().displayHeight/2 - padding - Const.btnHeight;
+				xDelta = Const.btnWidth + padding;
+				yDelta = 0;
+			}
+ 
 			event.buttonList.add(new GuiButtonLootAll(button_id++, x,y));
 
-			y += ypadding;
+			x += xDelta;
+			y += yDelta;
 
 			event.buttonList.add(new GuiButtonDepositAll(button_id++, x,y));
 
-			y += ypadding;
+			x += xDelta;
+			y += yDelta;
 
 			event.buttonList.add(new GuiButtonQuickStack(button_id++, x,y));
 
-			y += ypadding;
+			x += xDelta;
+			y += yDelta;
 
 			event.buttonList.add(new GuiButtonRestock(button_id++, x,y));
 
