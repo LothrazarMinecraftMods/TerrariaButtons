@@ -388,7 +388,7 @@ public class UtilInventory
 		p.inventory.markDirty();
 		
 		//next mark the container as 'i need to update on client side'
-		UtilInventory.updateNearbyTileEntities(p);
+		//UtilInventory.updateNearbyTileEntities(p);
 		
 		if(FMLClientHandler.instance().getClient().currentScreen != null)
 		{
