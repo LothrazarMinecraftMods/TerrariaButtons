@@ -1,8 +1,7 @@
 package com.lothrazar.terrariabuttons;
  
 import com.lothrazar.terrariabuttons.net.*;
-import com.lothrazar.terrariabuttons.util.Const;
-import net.minecraft.init.Blocks;
+import com.lothrazar.terrariabuttons.util.Const; 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;

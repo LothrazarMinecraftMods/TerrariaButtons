@@ -1,7 +1,6 @@
 package com.lothrazar.terrariabuttons.net;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
+import io.netty.buffer.ByteBuf; 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -31,8 +30,8 @@ public class RenamePacket  implements IMessage , IMessageHandler<RenamePacket, I
 	@Override
 	public IMessage onMessage(RenamePacket message, MessageContext ctx)
 	{
-		EntityPlayer p = ctx.getServerHandler().playerEntity;
-		// TODO Auto-generated method stub
+		//EntityPlayer p = ctx.getServerHandler().playerEntity;
+	 
 		System.out.println("RenamePacket");
 		return null;
 	}
