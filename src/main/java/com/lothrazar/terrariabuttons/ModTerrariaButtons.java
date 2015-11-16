@@ -31,10 +31,8 @@ public class ModTerrariaButtons
     {
     	network = NetworkRegistry.INSTANCE.newSimpleChannel(ModTerrariaButtons.MODID);
     	
-    	/*
-    	 //TODO
     	ModConfig.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
-*/
+
     	int packetID = 0;
     	network.registerMessage(DepositAllPacket.class,  DepositAllPacket.class,  packetID++, Side.SERVER);
     	network.registerMessage(LootAllPacket.class,  LootAllPacket.class,  packetID++, Side.SERVER);

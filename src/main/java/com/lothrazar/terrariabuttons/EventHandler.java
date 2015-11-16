@@ -11,8 +11,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EventHandler
 {
-    
-    
     @SuppressWarnings("unchecked")
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
@@ -47,12 +45,18 @@ public class EventHandler
 			int button_id = 256;
 			
 			// TODO: config for different locations - left right bottom top
-			int xpadding = 6;
-			int ypadding = 24;
-		
-			//int h = 20, w = 50;
-			int x = Minecraft.getMinecraft().displayWidth/2 - Const.btnWidth - xpadding;//align to right side
-			int y = 6;
+			int x=0,y=0,padding = 6, ypadding = 24;
+System.out.println(ModConfig.position);
+			if(ModConfig.position.equalsIgnoreCase("left"))
+			{
+				x = Minecraft.getMinecraft().displayWidth/2 - Const.btnWidth - padding;//align to right side
+				y = padding;
+			}
+			else if(ModConfig.position.equalsIgnoreCase("right"))
+			{
+				x = padding;
+				y = padding;
+			}
 			
 			//TODO: ... button does nothing for now
 			event.buttonList.add(new GuiButtonLootAll(button_id++, x,y));
