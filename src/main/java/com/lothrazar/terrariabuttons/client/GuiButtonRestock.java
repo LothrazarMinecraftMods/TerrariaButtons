@@ -2,6 +2,7 @@ package com.lothrazar.terrariabuttons.client;
 
 import com.lothrazar.terrariabuttons.ModTerrariaButtons;
 import com.lothrazar.terrariabuttons.net.RestockPacket;
+import com.lothrazar.terrariabuttons.util.Const;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -14,7 +15,7 @@ public class GuiButtonRestock extends GuiButton
 {
 	public GuiButtonRestock(int buttonId, int x, int y)
 	{
-		super(buttonId, x, y, 40,20, StatCollector.translateToLocal("btn.restock"));
+		super(buttonId, x, y, Const.btnWidth, Const.btnHeight, StatCollector.translateToLocal("btn.restock"));
 	}
  
 	@SideOnly(Side.CLIENT)

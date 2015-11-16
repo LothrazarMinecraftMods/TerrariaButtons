@@ -2,6 +2,7 @@ package com.lothrazar.terrariabuttons.client;
 
 import com.lothrazar.terrariabuttons.ModTerrariaButtons;
 import com.lothrazar.terrariabuttons.net.RenamePacket;
+import com.lothrazar.terrariabuttons.util.Const;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -14,7 +15,7 @@ public class GuiButtonRename extends GuiButton
 {
 	public GuiButtonRename(int buttonId, int x, int y)
 	{
-		super(buttonId, x, y, 40,20, StatCollector.translateToLocal("btn.rename"));
+		super(buttonId, x, y, Const.btnWidth, Const.btnHeight, StatCollector.translateToLocal("btn.rename"));
 	}
 
 	@SideOnly(Side.CLIENT)
