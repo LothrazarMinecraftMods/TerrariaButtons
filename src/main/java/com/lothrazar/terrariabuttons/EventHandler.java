@@ -3,10 +3,6 @@ package com.lothrazar.terrariabuttons;
 import com.lothrazar.terrariabuttons.client.*;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.inventory.*; 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -73,10 +69,6 @@ public class EventHandler
 			y += ypadding;
 
 			event.buttonList.add(new GuiButtonRename(button_id++, x,y));
-
-			y += ypadding;
-
-			event.buttonList.add(new GuiButtonSort(button_id++, x,y));
 		}
 	}
 }

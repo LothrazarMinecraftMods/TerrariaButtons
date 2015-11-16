@@ -14,7 +14,7 @@ public class GuiButtonDepositAll extends GuiButton
 {
 	public GuiButtonDepositAll(int buttonId, int x, int y)
 	{
-		super(buttonId, x, y, 40,20, "D");
+		super(buttonId, x, y, 40,20, StatCollector.translateToLocal("btn.deposit"));
     }
 
 	

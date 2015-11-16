@@ -26,248 +26,54 @@ import net.minecraftforge.fml.client.FMLClientHandler;
  */
 public class UtilInventory 
 {
-	public static ArrayList<BlockPos> findBlocks(EntityPlayer player, Block blockHunt, int RADIUS ) 
-	{        
-		ArrayList<BlockPos> found = new ArrayList<BlockPos>();
-		int xMin = (int) player.posX - RADIUS;
-		int xMax = (int) player.posX + RADIUS;
-
-		int yMin = (int) player.posY - RADIUS;
-		int yMax = (int) player.posY + RADIUS;
-
-		int zMin = (int) player.posZ - RADIUS;
-		int zMax = (int) player.posZ + RADIUS;
-		 
-		BlockPos posCurrent = null; 
-		for (int xLoop = xMin; xLoop <= xMax; xLoop++)
-		{
-			for (int yLoop = yMin; yLoop <= yMax; yLoop++)
-			{
-				for (int zLoop = zMin; zLoop <= zMax; zLoop++)
-				{  
-					posCurrent = new BlockPos(xLoop, yLoop, zLoop);
-					if(player.worldObj.getBlockState(posCurrent).getBlock().equals(blockHunt))
-					{ 
-						found.add(posCurrent);
-					} 
-				}
-			}
-		}
-		
-		return found; 
-	}
-	
-	public static ArrayList<IInventory> findTileEntityInventories(EntityPlayer player, int RADIUS ) 
-	{        
-		//function imported https://github.com/PrinceOfAmber/SamsPowerups/blob/master/Commands/src/main/java/com/lothrazar/samscommands/ModCommands.java#L193
-		ArrayList<IInventory> found = new ArrayList<IInventory>();
-		int xMin = (int) player.posX - RADIUS;
-		int xMax = (int) player.posX + RADIUS;
-
-		int yMin = (int) player.posY - RADIUS;
-		int yMax = (int) player.posY + RADIUS;
-
-		int zMin = (int) player.posZ - RADIUS;
-		int zMax = (int) player.posZ + RADIUS;
-		 
-		BlockPos posCurrent = null; 
-		for (int xLoop = xMin; xLoop <= xMax; xLoop++)
-		{
-			for (int yLoop = yMin; yLoop <= yMax; yLoop++)
-			{
-				for (int zLoop = zMin; zLoop <= zMax; zLoop++)
-				{  
-					posCurrent = new BlockPos(xLoop, yLoop, zLoop);
-					if(player.worldObj.getTileEntity(posCurrent) instanceof IInventory)
-					{ 
-						found.add((IInventory)player.worldObj.getTileEntity(posCurrent));
-					} 
-				}
-			}
-		}
-		
-		return found; 
-	}
-/*
-	public static void moveallContainerToPlayer(EntityPlayer player,Container container) //W
-	{
-		ItemStack source,destination;
-
-		int cont = 0;
-		for(int ip = Const.hotbarSize; ip < player.inventory.getSizeInventory() - Const.armorSize; ip++)
-		{
-			for(int i = cont; i < container.getInventory().size(); i++)
-			{
-				if(container.getSlot(i).getHasStack() == false || container.getSlot(i).getStack() == null){continue;}
-			
-				destination = player.inventory.getStackInSlot(ip);
-				source = container.getSlot(i).getStack();
-				
-				if(destination == null)
-				{
-					player.inventory.setInventorySlotContents(ip, source);
-				 
-					player.inventoryContainer.getSlot(ip).putStack(source);
-					player.inventoryContainer.detectAndSendChanges();
-					container.getSlot(i).putStack(null);
-					// okay, now we are done with source
-					//start at the next one later 
-					
-				}
-				else
-				{
-					if(destination.stackSize == destination.getMaxStackSize()){break;}//if its full, we are done already, break inner loop only
-	 
-					if(source.isItemEqual(destination)) //do we match?
-					{
-			//tried to find a way to share code here between this and the opposite method
-						//but not there yet.. copy paste works though
-						
-						int room = destination.getMaxStackSize() - destination.stackSize;
-						
-						if(room > 0)
-						{
-							int toDeposit = Math.min(room, source.stackSize);
-				
-							//so if they have room for 52, then room for 12, and we have 55, 
-							//so toDeposit is only 12 and we take that off the 55 in player invo
-					 
-							destination.stackSize += toDeposit;
-	
-							player.inventoryContainer.getSlot(ip).putStack(destination);
-							
-							//now decrement source
-	
-							if(source.stackSize - toDeposit == 0)
-							{
-								container.getSlot(i).putStack(null);
-							}
-							else
-							{
-								source.stackSize -= toDeposit;
-								container.getSlot(i).putStack(source); 
-							}
-						} 
-					}
-				}
-			}
-		}
-	}*/
-	
-	//TODO: refactor above and below to share code, code reuse, find some generic bits ?
-	//they are /almost/ copy-pastes in reverse of each other
-	/*
-	public static void moveallPlayerToContainer(EntityPlayer player, Container container)//D
-	{ 
-		ItemStack source,destination;
-
-		for(int i = 0; i < container.getInventory().size(); i++)
-		{
-			for(int ip = Const.hotbarSize; ip < player.inventory.getSizeInventory() - Const.armorSize; ip++)
-			{
-				source = player.inventory.getStackInSlot(ip);
-				if(source == null){continue;}
-			
-				if(container.getSlot(i).getHasStack() == false && //its empty, dump away
-						container.getSlot(i).isItemValid(source)) //intended to validate furnace/brewing slot rules
-				{ 
-					container.getSlot(i).putStack(source);
-
-
-					player.inventory.setInventorySlotContents(ip, null);//and remove it from player inventory
-				}
-				else
-				{ 
-					destination = container.getSlot(i).getStack();
-					if(destination.stackSize == destination.getMaxStackSize()) {continue;}
-					 
-					if(source.isItemEqual(destination))//here.getItem() == splayer.getItem() && here.getMetadata() == splayer.getMetadata())
-					{
-						//so i have a non-empty, non-full stack, and a matching stack in player inventory
-						
-						int room = destination.getMaxStackSize() - destination.stackSize;
-						
-						if(room > 0)
-						{
-							int toDeposit = Math.min(room, source.stackSize);
-				
-							//so if they have room for 52, then room for 12, and we have 55, 
-							//so toDeposit is only 12 and we take that off the 55 in player invo
-					 
-					 		destination.stackSize += toDeposit;
-							container.getSlot(i).putStack(destination);
-					 		//
-	
-							if(source.stackSize - toDeposit == 0)
-							{ 
-								player.inventory.setInventorySlotContents(ip, null);
-							}
-							else
-							{
-								source.stackSize -= toDeposit;
-								player.inventory.setInventorySlotContents(ip, source);
-							}
-						}
-					} 
-				}
-			}
-		}	
-	}*/
-	public static void dumpFromPlayerToChestEntity(World world, TileEntityChest chest, EntityPlayer player)
+	public static void dumpFromPlayerToIInventory(World world, IInventory inventory, EntityPlayer player)
   	{ 
-
-		ItemStack chestItem;
-		ItemStack invItem;
+		ItemStack chestEmptySlot;
+		ItemStack playerItem;
 	 
-		int START_CHEST = 0; 
-		int END_CHEST =  START_CHEST + 3*9; 
-		
-		//inventory and chest has 9 rows by 3 columns, never changes. same as 64 max stack size
-		for(int islotChest = START_CHEST; islotChest < END_CHEST; islotChest++)
-		{ 
-			chestItem = chest.getStackInSlot(islotChest);
-		
-			if(chestItem != null) {   continue; }//  chest slot not empty, skip over it
-	 
-			for(int islotInv = Const.HOTBAR_SIZE; islotInv < getInvoEnd(player); islotInv++)
-			{
-				invItem = player.inventory.getStackInSlot(islotInv);
-				
-				if(invItem == null)  {continue;}//empty inventory slot
-				  
-				chest.setInventorySlotContents(islotChest, invItem);
+		int start = 0; 
  
-  				player.inventory.setInventorySlotContents(islotInv,null); 
+		//we loop on the chest and look for empty slots
+		//once we have an empty slot, we find something to fill it with
+		//inventory and chest has 9 rows by 3 columns, never changes. same as 64 max stack size
+		for(int islotInvo = start; islotInvo < inventory.getSizeInventory(); islotInvo++)
+		{ 
+			chestEmptySlot = inventory.getStackInSlot(islotInvo);
+		
+			if(chestEmptySlot != null) {   continue; }//   slot not empty, skip over it
+	 
+			for(int islotPlayer = Const.HOTBAR_SIZE; islotPlayer < getInvoEnd(player); islotPlayer++)
+			{
+				playerItem = player.inventory.getStackInSlot(islotPlayer);
+				
+				if(playerItem == null)  {continue;}//empty inventory slot
+				  
+				inventory.setInventorySlotContents(islotInvo, playerItem);
+ 
+  				player.inventory.setInventorySlotContents(islotPlayer,null); 
   				break;
   			}//close loop on player inventory items 
 		}//close loop on chest items
-  	}
-	
-	public static void dumpFromPlayerToIInventory(World world, IInventory inventory, EntityPlayer player)
+  	} 
+	public static void dumpFromIInventoryToPlayer(World world, IInventory inventory, EntityPlayer player)
   	{ 
+		ItemStack playerEmptySlot;
 		ItemStack chestItem;
-		ItemStack invItem;
 	 
 		int start = 0; 
+		for(int islotPlayer = Const.HOTBAR_SIZE; islotPlayer < getInvoEnd(player); islotPlayer++)
+		{
+			playerEmptySlot = player.inventory.getStackInSlot(islotPlayer);
+			if(playerEmptySlot != null) {   continue; }//   slot not empty, skip over it
+
+			for(int islotInv = start; islotInv < inventory.getSizeInventory(); islotInv++)
+			{ 
+				chestItem = inventory.getStackInSlot(islotInv);
+			
+				if(chestItem == null) {   continue; }//empty inventory slot
 		 
-		//
-		//inventory and chest has 9 rows by 3 columns, never changes. same as 64 max stack size
-		for(int slot = start; slot < inventory.getSizeInventory(); slot++)
-		{ 
-			chestItem = inventory.getStackInSlot(slot);
-		
-			if(chestItem != null) {   continue; }//   slot not empty, skip over it
-	 
-			for(int islotInv = Const.HOTBAR_SIZE; islotInv < getInvoEnd(player); islotInv++)
-			{
-				invItem = player.inventory.getStackInSlot(islotInv);
-				
-				if(invItem == null)  {continue;}//empty inventory slot
-				  
-				inventory.setInventorySlotContents(slot, invItem);
- 
-  				player.inventory.setInventorySlotContents(islotInv,null); 
-  				break;
+				player.inventory.setInventorySlotContents(islotPlayer, chestItem);
+				break;
   			}//close loop on player inventory items 
 		}//close loop on chest items
   	} 
@@ -333,165 +139,74 @@ public class UtilInventory
   			}//close loop on player inventory items 
 		}//close loop on chest items
   	}
-	
 
-	public static void shiftRightAll(InventoryPlayer invo)
-	{
-		Queue<Integer> empty = new LinkedList<Integer>();
+	public static void sortFromInventoryToPlayer(World world, IInventory chest, EntityPlayer player)
+  	{ 
+		// same as sortFromPlayerToInventory but reverse
+		//TODO: find some code sharing
 
-		ItemStack item;
-		
-		for(int i = getInvoEnd(invo.player) - 1; i >= Const.HOTBAR_SIZE;i--)
-		{
-			item = invo.getStackInSlot(i);
-			
-			if(item == null)
-			{
-				empty.add(i);
-			}
-			else
-			{
-				//find an empty spot for it
-				if(empty.size() > 0 && empty.peek() > i)
-				{
-					//poll remove it since its not empty anymore
-					moveFromTo(invo,i,empty.poll());
-					empty.add(i);
-				}
-			}
-		}
-	}
-	
-	public static void shiftLeftAll(InventoryPlayer invo)
-	{
-		Queue<Integer> empty = new LinkedList<Integer>();
 
-		ItemStack item;
+		ItemStack chestItem;
+		ItemStack invItem;
+		int room;
+		int toDeposit;
+		int invMax;
 		
-		int max;
+		//player inventory and the small chest have the same dimensions 
 		
+		int START_CHEST = 0; 
+		int END_CHEST =  chest.getSizeInventory(); 
 		
-		for(int i = Const.HOTBAR_SIZE; i < getInvoEnd(invo.player);i++)
-		{
-			item = invo.getStackInSlot(i);
-			
-			if(item == null)
-			{
-				empty.add(i);
-			}
-			else  //find an empty spot for it
-			{
-				if(empty.size() > 0 && empty.peek() < i)
-				{
-					//poll remove it since its not empty anymore
-					moveFromTo(invo,i,empty.poll());
-					empty.add(i);
-				}
-			}
-		}
-	}
-	/**
-	 * WARNING: it assumes that 'to' is already empty, and overwrites it.  sets 'from' to empty for you
-	 * @param invo
-	 * @param from
-	 * @param to
-	 */
-	public static void moveFromTo(InventoryPlayer invo,int from, int to)
-	{
-		invo.setInventorySlotContents(to, invo.getStackInSlot(from));
-		invo.setInventorySlotContents(from, null);
-	}
-	/*
-	public static void shiftRightOne(InventoryPlayer invo) 
-	{
-		int iEmpty = -1;
-		ItemStack item = null;
-		//0 to 8 is crafting
-		//armor is 384-387
-		for(int i = invo.getSizeInventory() - (Const.armorSize + 1); i >= Const.hotbarSize;i--)//388-4 384
-		{
-			item = invo.getStackInSlot(i);
-			
-			if(item == null)
-			{
-				iEmpty = i;
-			}
-			else if(iEmpty > 0) //move i into iEmpty
-			{
-				moveFromTo(invo,i,iEmpty);
-				
-				iEmpty = i;					
-			 
-			}//else keep looking
-		}
-	}*/
-	public static void shiftRightOne(InventoryPlayer invo) 
-	{ 
-		Map<Integer,ItemStack> newLocations = new HashMap<Integer,ItemStack>();	
-		
-		int iNew;
- 
-		int END = getInvoEnd(invo.player);
-		for(int i = Const.HOTBAR_SIZE; i < END;i++)
+		//inventory and chest has 9 rows by 3 columns, never changes. same as 64 max stack size
+		for(int islotChest = START_CHEST; islotChest < END_CHEST; islotChest++)
 		{ 
+			chestItem = chest.getStackInSlot(islotChest);
+		
+			if(chestItem == null) {   continue; }//  empty chest slot
 			 
-			if(i == END-1) iNew = Const.HOTBAR_SIZE;
-			else iNew = i + 1;
-			
-			newLocations.put((Integer)iNew, invo.getStackInSlot(i));
+			for(int islotInv = Const.HOTBAR_SIZE; islotInv < getInvoEnd(player); islotInv++)
+			{
+			 
+				invItem = player.inventory.getStackInSlot(islotInv);
+				
+				if(invItem == null)  {continue;}//empty inventory slot
 		 
-		}
-		
-		for (Map.Entry<Integer,ItemStack> entry : newLocations.entrySet()) 
-		{ 
-			invo.setInventorySlotContents(entry.getKey().intValue(),entry.getValue());
-		}
-		
-	}
-	
-	public static void shiftLeftOne(InventoryPlayer invo) 
-	{
-		//int iEmpty = -1;
-		//ItemStack item = null;
-		
-		Map<Integer,ItemStack> newLocations = new HashMap<Integer,ItemStack>();	
-		
-		int iNew;
- 
-		int END = getInvoEnd(invo.player);
-		for(int i = Const.HOTBAR_SIZE; i < END;i++)
-		{ 
-			if(i == Const.HOTBAR_SIZE) iNew = END-1;
-			else iNew = i - 1;
-			
-			newLocations.put((Integer)iNew, invo.getStackInSlot(i));
-			
-			//newLocations.set(iNew, invo.getStackInSlot(i));
-			
-			/*
-			item = invo.getStackInSlot(i);
-			
-			if(item == null)
-			{
-				iEmpty = i;
-			}
-			else if(iEmpty > 0)
-			{ 
-				moveFromTo(invo,i,iEmpty);
-				
-				iEmpty = i;		
-			}*/
-		}
-		
-		for (Map.Entry<Integer,ItemStack> entry : newLocations.entrySet()) 
-		{
-		  //  System.out.println("key=" + entry.getKey() + ", value=" + entry.getValue());
-			invo.setInventorySlotContents(entry.getKey().intValue(),entry.getValue());
-		}
-	}
+  				if( invItem.getItem().equals(chestItem.getItem()) && invItem.getItemDamage() ==  chestItem.getItemDamage() )
+  				{  
+  					
+  					invMax = invItem.getItem().getItemStackLimit(invItem);
+  					room = invMax - invItem.stackSize;
+ 					 
+ 					if(room <= 0) {continue;} // no room, check the next spot
+ 					
+  					toDeposit = Math.min(chestItem.stackSize,room);
+ 					
+  					//add to player
+ 					invItem.stackSize += toDeposit;
+ 					player.inventory.setInventorySlotContents(islotInv, invItem);
+ 					
+ 					//remove from chest/invo
+ 					chestItem.stackSize -= toDeposit;
+ 					
+ 					if(chestItem.stackSize <= 0)
+ 					{
+ 						chest.setInventorySlotContents(islotChest, null);
+ 					}
+ 					else
+ 					{
+ 						chest.setInventorySlotContents(islotChest, chestItem);
+ 					}
+ 					
+  				}//end if items match   
+  			}//close loop on player inventory items 
+		}//close loop on chest items
+  	}
+
 	
 	
 	
+	
+	/*
 	final static String NBT_SORT = "terraria_sort";
 	final static int SORT_ALPH = 0;
 	final static int SORT_ALPHI = 1;
@@ -604,6 +319,34 @@ public class UtilInventory
 		
 		
 	}
+	*/
+
+	/*
+	public static void doSort(EntityPlayer p,int sortType)
+	{
+		InventoryPlayer invo = p.inventory;
+		
+		switch(sortType)
+		{
+		case Const.SORT_LEFT:
+			UtilInventory.shiftLeftOne(invo);
+			break;
+		case Const.SORT_RIGHT:
+			UtilInventory.shiftRightOne(invo);
+			break;
+		case Const.SORT_LEFTALL:
+			UtilInventory.shiftLeftAll(invo);
+			break;
+		case Const.SORT_RIGHTALL:
+			UtilInventory.shiftRightAll(invo);
+			break;
+		case Const.SORT_SMART:
+			UtilInventory.sort(invo);
+			break;
+		}
+ 
+		return ;
+	}*/
 	
 	private static int getInvoEnd(EntityPlayer p)
 	{
@@ -652,7 +395,6 @@ public class UtilInventory
 	 */
 	public static void updatePlayerContainerClient(EntityPlayer p)
 	{
-		System.out.println("updatePlayerContainerClient");
 		//first: mark player inventory as 'i need to update on client side'
 		//p.inventory.inventoryChanged = true;
 		p.inventory.markDirty();
@@ -666,33 +408,11 @@ public class UtilInventory
 			FMLClientHandler.instance().getClient().currentScreen.updateScreen();
 		}
 		
-		//if above didnt work i was doing this before:  p.closeScreen();
+		//if above didnt work i was doing this before:  
+		
+		//yeah.. for some reason the above stuff doesnt work 100% of the time. it works like, rarely?
+		//half the time? no fucking clue why.
+		p.closeScreen();
 	}
 
-	/*
-	public static void doSort(EntityPlayer p,int sortType)
-	{
-		InventoryPlayer invo = p.inventory;
-		
-		switch(sortType)
-		{
-		case Const.SORT_LEFT:
-			UtilInventory.shiftLeftOne(invo);
-			break;
-		case Const.SORT_RIGHT:
-			UtilInventory.shiftRightOne(invo);
-			break;
-		case Const.SORT_LEFTALL:
-			UtilInventory.shiftLeftAll(invo);
-			break;
-		case Const.SORT_RIGHTALL:
-			UtilInventory.shiftRightAll(invo);
-			break;
-		case Const.SORT_SMART:
-			UtilInventory.sort(invo);
-			break;
-		}
- 
-		return ;
-	}*/
 }
