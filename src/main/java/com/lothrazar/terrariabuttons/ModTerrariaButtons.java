@@ -40,11 +40,11 @@ public class ModTerrariaButtons
     	network.registerMessage(LootAllPacket.class,  LootAllPacket.class,  packetID++, Side.SERVER);
     	network.registerMessage(QuickStackPacket.class,  QuickStackPacket.class,  packetID++, Side.SERVER);
     	network.registerMessage(RenamePacket.class,  RenamePacket.class,  packetID++, Side.SERVER);
-    	network.registerMessage(RestockPacket.class,  RestockPacket.class,  packetID++, Side.SERVER);
+    	//network.registerMessage(RestockPacket.class,  RestockPacket.class,  packetID++, Side.SERVER);
     	
     	proxy.registerHandlers();
-    	
     }
+    
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
@@ -56,13 +56,4 @@ public class ModTerrariaButtons
     {
     	
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
 }

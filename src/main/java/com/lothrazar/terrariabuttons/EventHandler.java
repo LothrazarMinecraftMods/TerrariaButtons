@@ -1,6 +1,7 @@
 package com.lothrazar.terrariabuttons;
  
 import com.lothrazar.terrariabuttons.client.*;
+import com.lothrazar.terrariabuttons.util.Const;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
@@ -46,10 +47,12 @@ public class EventHandler
 			int button_id = 256;
 			
 			// TODO: config for different locations - left right bottom top
+			int xpadding = 6;
 			int ypadding = 24;
+		
 			//int h = 20, w = 50;
-			int x = Minecraft.getMinecraft().displayWidth/2 - 46;//align to right side
-			int y = 10;
+			int x = Minecraft.getMinecraft().displayWidth/2 - Const.btnWidth - xpadding;//align to right side
+			int y = 6;
 			
 			//TODO: ... button does nothing for now
 			event.buttonList.add(new GuiButtonLootAll(button_id++, x,y));
@@ -66,9 +69,9 @@ public class EventHandler
 
 			event.buttonList.add(new GuiButtonRestock(button_id++, x,y));
 
-			y += ypadding;
+			//y += ypadding;
 
-			event.buttonList.add(new GuiButtonRename(button_id++, x,y));
+			//event.buttonList.add(new GuiButtonRename(button_id++, x,y));
 		}
 	}
 }
