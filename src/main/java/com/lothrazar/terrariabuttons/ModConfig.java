@@ -50,7 +50,8 @@ public class ModConfig
 		   "net.minecraft.client.gui.inventory.GuiCrafting,"+ 
 		   "net.minecraft.client.gui.inventory.GuiFurnace,"+ 
 		   "net.minecraft.client.gui.inventory.GuiScreenHorseInventory,"+
-		   "com.jaquadro.minecraft.storagedrawers.client.gui";
+		   "com.jaquadro.minecraft.storagedrawers.client.gui.GuiDrawers,"+
+		   "cpw.mods.ironchest.client.GUIChest ";
 	
 		allClasses = config.getString("classes_csv", category, all, "DO NOT touch unless you have other mods installed with containers that you want to add compatibility for.  The class and package of every GUI screen that has these buttons show up.  ");
 
