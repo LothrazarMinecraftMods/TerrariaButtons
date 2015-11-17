@@ -3,6 +3,7 @@ package com.lothrazar.terrariabuttons;
 import java.util.ArrayList;
 import java.util.List;
 
+import scala.actors.threadpool.Arrays;
 import net.minecraftforge.common.config.Configuration;
 
 public class ModConfig
@@ -22,8 +23,7 @@ public class ModConfig
     	syncConfig();
 	}
 	
-	private static String allClasses;
-	public static ArrayList<Class> classes = new ArrayList<Class>();
+	public static List<String> blacklistGuis; 
 	
 	public static void syncConfig()
 	{
@@ -42,38 +42,20 @@ public class ModConfig
 			position = posRight;//default
 		}
 		
-		String category = "the_classes";
-		
-		String all = "net.minecraft.client.gui.inventory.GuiChest,"+
-		   "net.minecraft.client.gui.inventory.GuiDispenser,"+ 
-		   "net.minecraft.client.gui.inventory.GuiBrewingStand,"+ 
+		String category = "blacklist_gui_class";
+		config.addCustomCategoryComment(category, "Here you can blacklist any container, vanilla or modded.  Mostly for creating modpacks, if some containers shouldnt have these buttons showing up.");
+		//the default
+		String blacklistDefault = "net.minecraft.client.gui.inventory.GuiBrewingStand,"+ 
 		   "net.minecraft.client.gui.inventory.GuiBeacon,"+ 
 		   "net.minecraft.client.gui.inventory.GuiCrafting,"+ 
 		   "net.minecraft.client.gui.inventory.GuiFurnace,"+ 
-		   "net.minecraft.client.gui.inventory.GuiScreenHorseInventory,"+
-		   "com.jaquadro.minecraft.storagedrawers.client.gui.GuiDrawers,"+
-		   "cpw.mods.ironchest.client.GUIChest ";
+		   "net.minecraft.client.gui.inventory.GuiScreenHorseInventory";
 	
-		allClasses = config.getString("classes_csv", category, all, "DO NOT touch unless you have other mods installed with containers that you want to add compatibility for.  The class and package of every GUI screen that has these buttons show up.  ");
-
+		String csv = config.getString("classes_csv", category, blacklistDefault, "These containers are blocked from getting the buttons.  By default, anything that extends 'GuiContainer' will get the buttons.  ");
+		//blacklistGuis = new ArrayList<String>();
+		blacklistGuis = (List<String>)Arrays.asList(csv.split(","));
+		if(blacklistGuis == null) blacklistGuis = new ArrayList<String>();//just being extra safe
+		
 		if(config.hasChanged()){config.save();}
-	}
-
-	static void classesFromCsv()
-	{ 
-		classes = new ArrayList<Class>();
-	
-		String[] csv = allClasses.split(",");
-		for(String s : csv)
-		{
-			try{
-				classes.add(Class.forName(s));
-			}
-			catch(Exception e){
-				//TODO: use a real logger?
-				System.out.println("Class not found (perhaps a mod was not installed)");
-				System.out.println(e.getMessage());
-			}
-		}
 	}
 }
