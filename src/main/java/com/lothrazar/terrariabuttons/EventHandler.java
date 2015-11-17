@@ -19,24 +19,8 @@ public class EventHandler
 	{
 		if(event.gui == null){return;}//probably doesnt ever happen
 		
-		//EntityPlayer p = Minecraft.getMinecraft().thePlayer;
-		
-		
-		//TODO: get a blacklist//whitelist from config?
-		/*
-		//blacklist method
-		if (event.gui instanceof GuiContainer && 
-			!(event.gui instanceof net.minecraft.client.gui.GuiMerchant) &&
-			!(event.gui instanceof net.minecraft.client.gui.GuiRepair) &&
-			!(event.gui instanceof net.minecraft.client.gui.inventory.GuiBeacon) &&
-			!(event.gui instanceof net.minecraft.client.gui.inventory.GuiInventory) //players inventory
-			)*/
-		//Class<?> act=Class.forName("net.minecraft.client.gui.inventory.GuiScreenHorseInventory");
-		//  Class.forName("net.minecraft.client.gui.inventory.GuiScreenHorseInventory").isInstance(event.gui)
-		
-		//System.out.println(event.gui.getClass().getName());
-		//whitelist method
-		
+		//not on main menu, do it only once after all other mods are loaded
+		if(event.gui.getClass().getName() == "net.minecraft.client.gui.GuiMainMenu"){return;}
 
 		if( ModConfig.classes.size() == 0 )
 		{

@@ -44,8 +44,6 @@ public class ModConfig
 		
 		String category = "the_classes";
 		
-		
-		
 		String all = "net.minecraft.client.gui.inventory.GuiChest,"+
 		   "net.minecraft.client.gui.inventory.GuiDispenser,"+ 
 		   "net.minecraft.client.gui.inventory.GuiBrewingStand,"+ 
@@ -73,6 +71,7 @@ public class ModConfig
 			}
 			catch(Exception e){
 				//TODO: use a real logger?
+				System.out.println("Class not found (perhaps a mod was not installed)");
 				System.out.println(e.getMessage());
 			}
 		}
