@@ -128,7 +128,7 @@ public class UtilInventory
 		}//close loop on chest items
   	}
 
-	public static void sortFromInventoryToPlayer(World world, IInventory chest, EntityPlayer player)
+	public static void sortFromInventoryToPlayer(World world, IInventory chest, EntityPlayer player,boolean restockLeaveOne)
   	{ 
 		//System.out.println("sortFromInventoryToPlayer");
 		// same as sortFromPlayerToInventory but reverse
@@ -172,6 +172,15 @@ public class UtilInventory
   					//System.out.println("ROOM");
  					
   					toDeposit = Math.min(chestItem.stackSize,room);
+  					
+  					if(restockLeaveOne && chestItem.stackSize - toDeposit == 0)
+  					{
+  						//they decided in the config
+  						//that leaving one behind is better
+  						toDeposit--;
+  						
+  						if(toDeposit == 0){continue;}// dont do nothing
+  					}
  					
   					//add to player
  					playerItem.stackSize += toDeposit;

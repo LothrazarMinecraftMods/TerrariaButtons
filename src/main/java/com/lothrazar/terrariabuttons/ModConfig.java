@@ -8,6 +8,7 @@ import net.minecraftforge.common.config.Configuration;
 public class ModConfig
 {
 	public static String position;
+	public static boolean restockLeaveOne;
 
 	public static String posLeft = "topleft";
 	public static String posRight = "topright";
@@ -30,6 +31,8 @@ public class ModConfig
 		valid.add(posLeft);
 		valid.add(posRight);
 		valid.add(posBottom); 
+
+		restockLeaveOne = config.getBoolean("restock_leave_one", Configuration.CATEGORY_GENERAL, false, "By default (false) the Restock feature will empty your chests if possible.  If you change this to true, then using Restock will leave one behind of each item stack");
 		
 		position = config.getString("button_location", Configuration.CATEGORY_GENERAL, posRight, "Location of the buttons, "
 				+ "valid entries are: "+String.join(",", valid));

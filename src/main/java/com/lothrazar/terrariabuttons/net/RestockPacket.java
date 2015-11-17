@@ -1,5 +1,6 @@
 package com.lothrazar.terrariabuttons.net;
 
+import com.lothrazar.terrariabuttons.ModConfig;
 import com.lothrazar.terrariabuttons.util.UtilInventory;
 
 import io.netty.buffer.ByteBuf;
@@ -48,7 +49,8 @@ public class RestockPacket  implements IMessage , IMessageHandler<RestockPacket,
 			IInventory openInventory = p.openContainer.getSlot(0).inventory;
 			 
 			//Reverse of quickstack
-			UtilInventory.sortFromInventoryToPlayer(p.worldObj, openInventory, p);
+			
+			UtilInventory.sortFromInventoryToPlayer(p.worldObj, openInventory, p,ModConfig.restockLeaveOne);
 			
 			UtilInventory.updatePlayerContainerClient(p);
 		}
