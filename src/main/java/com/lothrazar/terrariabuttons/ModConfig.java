@@ -1,9 +1,9 @@
 package com.lothrazar.terrariabuttons;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import scala.actors.threadpool.Arrays;
 import net.minecraftforge.common.config.Configuration;
 
 public class ModConfig
