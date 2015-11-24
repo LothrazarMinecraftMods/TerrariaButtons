@@ -18,6 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 		,  guiFactory ="com.lothrazar."+Const.MODID+".IngameConfigHandler")
 public class ModTerrariaButtons
 { 
+	public static final int GUI_ID = 97;
 	@Instance(Const.MODID)
 	public static ModTerrariaButtons instance;
 	@SidedProxy(clientSide = "com.lothrazar.terrariabuttons.ClientProxy", serverSide = "com.lothrazar.terrariabuttons.CommonProxy")
@@ -37,6 +38,7 @@ public class ModTerrariaButtons
     	network.registerMessage(RestockPacket.class,  RestockPacket.class,  packetID++, Side.SERVER);
     	//network.registerMessage(RestockPacket.class,  RestockPacket.class,  packetID++, Side.SERVER);
     	
+    	NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
     	proxy.registerHandlers();
     }
     

@@ -71,8 +71,12 @@ public class EventHandler
 			y += yDelta;
 
 			event.buttonList.add(new GuiButtonRestock(button_id++, x,y));
+
+			x += xDelta;
+			y += yDelta;
+
+			event.buttonList.add(new GuiButtonLockedSettings(button_id++, x,y));
  
-			 
 		}
 	}
     
