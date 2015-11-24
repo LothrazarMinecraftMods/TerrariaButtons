@@ -22,8 +22,12 @@ public class EventHandler
 
 		//all containers by default
 		//but with a blacklist in config
+		String self = event.gui.getClass().getName();
+		
 		if(event.gui instanceof GuiContainer && 
-			ModConfig.blacklistGuis.contains(event.gui.getClass().getName()) == false)
+			ModConfig.blacklistGuis.contains(self) == false &&
+			event.gui instanceof net.minecraft.client.gui.inventory.GuiInventory == false
+				)
 		{
 			int button_id = 256;
 			
