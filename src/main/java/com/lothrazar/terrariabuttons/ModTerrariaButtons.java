@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 @Mod(modid = Const.MODID, useMetadata=true, canBeDeactivated=false 
-		,  guiFactory ="com.lothrazar."+Const.MODID+".IngameConfigHandler")
+		,  guiFactory ="com.lothrazar."+Const.MODID+".IngameConfigHandler", updateJSON = "https://raw.githubusercontent.com/LothrazarMinecraftMods/TerrariaButtons/master/update.json")
 public class ModTerrariaButtons
 { 
 	@Instance(Const.MODID)
