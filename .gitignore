@@ -9,12 +9,8 @@ config/
 saves/
 .gradle/
 .settings/
-gradlew
-gradlew.bat
 server.properties 
-gradle/
 *.properties 
-.gradle/
 screenshots/
 .metadata/
 .settings/
@@ -27,5 +23,6 @@ crash-reports/
 *.fdx
 *.fnm
 *.tis
+*.launch
 .recommenders/
 .gitattributes

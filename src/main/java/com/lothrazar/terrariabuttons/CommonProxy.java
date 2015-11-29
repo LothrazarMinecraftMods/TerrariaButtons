@@ -1,7 +1,6 @@
 package com.lothrazar.terrariabuttons;
  
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler; 
+import net.minecraftforge.common.MinecraftForge; 
 
 public class CommonProxy
 {
@@ -13,7 +12,6 @@ public class CommonProxy
 	public void registerHandlers()
 	{
 		EventHandler handler = new EventHandler();
-		MinecraftForge.EVENT_BUS.register(handler);
-		FMLCommonHandler.instance().bus().register(handler); 
+		MinecraftForge.EVENT_BUS.register(handler); 
     }
 }
