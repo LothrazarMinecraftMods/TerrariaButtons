@@ -31,7 +31,7 @@ public class EventHandler
 		{
 			int button_id = 256;
 			
-			// TODO: config for different locations - left right bottom top
+			//  config for different locations - left right bottom top
 			int x=0,y=0,padding = 6, yDelta = 24, xDelta = 0;
 
 			if(ModConfig.position.equalsIgnoreCase(ModConfig.posLeft))
