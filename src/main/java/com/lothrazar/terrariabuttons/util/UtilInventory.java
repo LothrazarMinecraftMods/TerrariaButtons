@@ -3,7 +3,7 @@ package com.lothrazar.terrariabuttons.util;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 /** 
@@ -382,7 +382,9 @@ public class UtilInventory
 					if(w.getTileEntity(pos) != null)
 					{
 						//System.out.println("markBlockForUpdate");
-						w.markBlockForUpdate(pos);
+						//state isnt changing but still trigger update
+						w.notifyBlockUpdate(pos, w.getBlockState(pos), w.getBlockState(pos), 3);
+						//w.markBlockForUpdate(pos);
 					}
 				}
 			}

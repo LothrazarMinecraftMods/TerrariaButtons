@@ -2,8 +2,8 @@ package com.lothrazar.terrariabuttons;
   
 import com.lothrazar.terrariabuttons.client.*;
 import com.lothrazar.terrariabuttons.util.Const;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
@@ -17,15 +17,16 @@ public class EventHandler
 	@SubscribeEvent
 	public void onGuiPostInit(InitGuiEvent.Post event)
 	{
-		if(event.gui == null){return;}//probably doesn't ever happen
+		GuiScreen gui = event.getGui();
+		if(gui == null){return;}//probably doesn't ever happen
 
 		//all containers by default
 		//but with a blacklist in config
-		String self = event.gui.getClass().getName();
+		String self = gui.getClass().getName();
 		
-		if(event.gui instanceof GuiContainer && 
+		if(gui instanceof GuiContainer && 
 			ModConfig.blacklistGuis.contains(self) == false &&
-			event.gui instanceof net.minecraft.client.gui.inventory.GuiInventory == false
+			gui instanceof net.minecraft.client.gui.inventory.GuiInventory == false
 				)
 		{
 			int button_id = 256;
@@ -58,30 +59,28 @@ public class EventHandler
 				yDelta = 0;
 			}
  
-			event.buttonList.add(new GuiButtonLootAll(button_id++, x,y));
+			event.getButtonList().add(new GuiButtonLootAll(button_id++, x,y));
 
 			x += xDelta;
 			y += yDelta;
 
-			event.buttonList.add(new GuiButtonDepositAll(button_id++, x,y));
+			event.getButtonList().add(new GuiButtonDepositAll(button_id++, x,y));
 
 			x += xDelta;
 			y += yDelta;
 
-			event.buttonList.add(new GuiButtonQuickStack(button_id++, x,y));
+			event.getButtonList().add(new GuiButtonQuickStack(button_id++, x,y));
 
 			x += xDelta;
 			y += yDelta;
 
-			event.buttonList.add(new GuiButtonRestock(button_id++, x,y));
- 
-			 
+			event.getButtonList().add(new GuiButtonRestock(button_id++, x,y));
 		}
 	}
     
 	@SubscribeEvent
 	public void onConfigChanged(OnConfigChangedEvent event) 
 	{
-		if (event.modID.equals(Const.MODID)) {ModConfig.syncConfig();}
+		if (event.getModID().equals(Const.MODID)) {ModConfig.syncConfig();}
 	}
 }
